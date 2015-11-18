@@ -13,6 +13,7 @@ namespace Factorem { namespace Server { namespace RestApi {
 
     public:
         UserId(uint64_t id);
+        uint64_t getId();
 
         bool operator==(UserId const& other) const;
 
