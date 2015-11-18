@@ -37,6 +37,7 @@
 			<Add option="-lboost_system-mt" />
 			<Add option="-lboost_filesystem-mt" />
 			<Add option="-lboost_iostreams-mt" />
+			<Add option="-lws2_32" />
 		</Linker>
 		<Unit filename="../lib/SimpleJSON/parse/jsd.h" />
 		<Unit filename="../lib/SimpleJSON/parse/jsd_array.h" />
@@ -147,6 +148,15 @@
 		<Unit filename="../lib/dukextpp/utility.cpp" />
 		<Unit filename="../lib/dukextpp/utility.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="rest/connection.cpp" />
+		<Unit filename="rest/connection.hpp" />
+		<Unit filename="rest/forward.hpp" />
+		<Unit filename="rest/io_service_provider.cpp" />
+		<Unit filename="rest/io_service_provider.hpp" />
+		<Unit filename="rest/server.cpp" />
+		<Unit filename="rest/server.hpp" />
+		<Unit filename="rest/user_id.cpp" />
+		<Unit filename="rest/user_id.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
