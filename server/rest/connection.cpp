@@ -12,6 +12,7 @@ namespace Factorem { namespace Server { namespace RestApi
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::free()
     {
+        stream_.close();
         owner_->deregisterClient(this);
     }
 //-------------------------------------------------------------------------------------------------------

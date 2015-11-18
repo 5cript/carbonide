@@ -10,7 +10,7 @@ int main()
     RestServer server([](std::shared_ptr <RestConnection> connection) {
         auto& stream = connection->getStream();
 
-        std::cout << "Hello dude!";
+        std::cout << "Hello dude!" << connection->getId().getId() << "\n";
 
         stream << "HTTP/1.1 200 OK\r\n";
         stream << "Content-Type: text/html;\r\n";
@@ -20,6 +20,8 @@ int main()
         stream << "\r\n\r\n";
         stream << "Hello";
         stream.flush();
+
+        std::cout << "Bye dude!\n";
 
         connection->free();
     }, 8081);
