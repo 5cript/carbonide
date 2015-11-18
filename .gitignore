@@ -1,2 +1,5 @@
 /factorem.layout
 /factorem.workspace.layout
+*.o
+*.depend
+*.exe
