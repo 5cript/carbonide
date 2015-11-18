@@ -1,0 +1,6 @@
+[submodule "lib/SimpleJSON"]
+	path = lib/SimpleJSON
+	url = git@github.com:5cript/SimpleJSON.git
+[submodule "lib/dukextpp"]
+	path = lib/dukextpp
+	url = git@github.com:5cript/dukextpp.git
