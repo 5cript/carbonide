@@ -4,23 +4,28 @@
 #include <memory>
 #include <boost/asio.hpp>
 
-class IOServiceProvider
-{
-public:
-    ~IOServiceProvider() = default;
-    IOServiceProvider(IOServiceProvider const&) = delete;
-    IOServiceProvider& operator=(IOServiceProvider const&) = delete;
+namespace Factorem { namespace Server {
 
-    static IOServiceProvider& getInstance() {
-        static IOServiceProvider provider;
-        return provider;
-    }
+    class IOServiceProvider
+    {
+    public:
+        ~IOServiceProvider() = default;
+        IOServiceProvider(IOServiceProvider const&) = delete;
+        IOServiceProvider& operator=(IOServiceProvider const&) = delete;
 
-    boost::asio::io_service& getIOService();
+        static IOServiceProvider& getInstance() {
+            static IOServiceProvider provider;
+            return provider;
+        }
 
-private:
-    IOServiceProvider();
-    boost::asio::io_service ioService;
-};
+        boost::asio::io_service& getIOService();
+
+    private:
+        IOServiceProvider();
+        boost::asio::io_service ioService;
+    };
+
+} // namespace Server
+} // namespace Factorem
 
 #endif // IO_SERVICE_PROVIDER_HPP_INCLUDED

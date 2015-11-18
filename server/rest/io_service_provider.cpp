@@ -1,11 +1,16 @@
 #include "io_service_provider.hpp"
 
-IOServiceProvider::IOServiceProvider()
-    : ioService()
-{
-}
+namespace Factorem { namespace Server {
 
-boost::asio::io_service& IOServiceProvider::getIOService()
-{
-    return ioService;
-}
+    IOServiceProvider::IOServiceProvider()
+        : ioService()
+    {
+    }
+
+    boost::asio::io_service& IOServiceProvider::getIOService()
+    {
+        return ioService;
+    }
+
+} // namespace Server
+} // namespace Factorem
