@@ -9,6 +9,11 @@ namespace Factorem { namespace Server { namespace RestApi {
     {
     }
 //-------------------------------------------------------------------------------------------------------
+    uint64_t UserId::getId()
+    {
+        return id_;
+    }
+//-------------------------------------------------------------------------------------------------------
     bool UserId::operator==(UserId const& other) const
     {
         return other.id_ == id_;
