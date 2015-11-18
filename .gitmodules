@@ -1,0 +1,3 @@
+[submodule "dukextpp"]
+	path = dukextpp
+	url = git@github.com:5cript/dukextpp.git
