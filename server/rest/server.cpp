@@ -13,6 +13,7 @@ namespace Factorem { namespace Server { namespace RestApi
         , handler_(handler)
         , acceptingThread_()
         , listening_(false)
+        , idIncrement_(0)
         , memberLock_()
         , connections_()
     {
