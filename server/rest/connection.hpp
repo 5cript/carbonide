@@ -21,8 +21,10 @@ namespace Factorem { namespace Server { namespace RestApi {
 
     private:
         RestServer* owner_;
-        boost::asio::ip::tcp::iostream stream_;
         UserId id_;
+        boost::asio::ip::tcp::iostream stream_;
+        //boost::asio::ssl::context context_;
+        //boost::asio::ssl::stream <boost::asio::ip::tcp::socket> sslSock_;
     };
 
 } // namespace RestApi

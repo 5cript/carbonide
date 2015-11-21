@@ -7,6 +7,7 @@ namespace Factorem { namespace Server { namespace RestApi
     RestConnection::RestConnection(RestServer* owner, UserId const& id)
         : owner_(owner)
         , id_(id)
+        , stream_()
     {
     }
 //-------------------------------------------------------------------------------------------------------

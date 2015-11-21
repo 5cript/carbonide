@@ -22,6 +22,7 @@ int main()
         stream.flush();
 
         std::cout << "Bye dude!\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
         connection->free();
     }, 8081);
