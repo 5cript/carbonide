@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace Factorem { namespace Server { namespace RestApi {
+namespace Carbonide { namespace Server { namespace RestApi {
 //#######################################################################################################
     UserId::UserId(uint64_t id)
         : id_(id)
@@ -26,4 +26,4 @@ namespace Factorem { namespace Server { namespace RestApi {
 //#######################################################################################################
 } // namespace RestApi
 } // namespace Server
-} // namespace Factorem
+} // namespace Carbonide
