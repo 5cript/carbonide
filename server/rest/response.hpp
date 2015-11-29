@@ -29,6 +29,12 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *  Shorthand operator for header key value pairs.
          */
         std::string& operator[](std::string const& key);
+
+        /**
+         *  Checks whether a certain key value pair exists.
+         *  Mostly used internally.
+         */
+        bool isSet(std::string const& key);
     };
 
 } // namespace RestApi

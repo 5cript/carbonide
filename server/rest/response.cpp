@@ -17,6 +17,11 @@ namespace Carbonide { namespace Server { namespace RestApi
         return builder.str();
     }
 //-------------------------------------------------------------------------------------------------------
+    bool ResponseHeader::isSet(std::string const& key)
+    {
+        return responseHeaderPairs.find(key) != std::end(responseHeaderPairs);
+    }
+//-------------------------------------------------------------------------------------------------------
     std::string& ResponseHeader::operator[](std::string const& key)
     {
         return responseHeaderPairs[key];
