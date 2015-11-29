@@ -4,13 +4,15 @@
 
 using namespace boost::asio::ip;
 
-namespace Factorem { namespace Server { namespace RestApi
+namespace Carbonide { namespace Server { namespace RestApi
 {
 //#######################################################################################################
-    RestServer::RestServer(std::function <void(std::shared_ptr <RestConnection>)> handler, uint16_t port)
+    RestServer::RestServer(std::function <void(std::shared_ptr <RestConnection>)> handler,
+                           std::function <void(std::shared_ptr <RestConnection>, InvalidRequest const&)> errorHandler, uint16_t port)
         : endpoint_(tcp::v4(), port)
         , acceptor_(nullptr)
         , handler_(handler)
+        , errorHandler_(errorHandler)
         , acceptingThread_()
         , listening_(false)
         , idIncrement_(0)
@@ -22,6 +24,7 @@ namespace Factorem { namespace Server { namespace RestApi
 //-------------------------------------------------------------------------------------------------------
     RestServer::~RestServer()
     {
+        // running? -> stop!
         if (acceptingThread_.joinable())
             stop();
     }
@@ -48,7 +51,19 @@ namespace Factorem { namespace Server { namespace RestApi
                         std::lock_guard <std::mutex> guard (memberLock_);
                         connections_.insert({connection->getId(), connection});
                     }
-                    std::thread([connection, this](){handler_(connection);}).detach();
+                    std::thread([connection, this](){
+                        try {
+                            connection->readHead();
+                            handler_(connection);
+                        } catch (InvalidRequest const& exc) {
+                            errorHandler_(connection, exc);
+                        }
+                        connection->free();
+                        //catch (...) {
+                        // std::terminate - do not handle unexpected exceptions.
+                        // we don't wanna catch our programming errors ;)
+                        //}
+                    }).detach();
                 }
             }
         });
@@ -56,14 +71,17 @@ namespace Factorem { namespace Server { namespace RestApi
 //-------------------------------------------------------------------------------------------------------
     void RestServer::stop()
     {
-        if (acceptingThread_.joinable());
-            acceptingThread_.join();
+        // dont touch the ordering. Everything else deadlock
         acceptor_.reset();
         listening_.store(false);
+
+        if (acceptingThread_.joinable());
+            acceptingThread_.join();
     }
 //-------------------------------------------------------------------------------------------------------
     void RestServer::deregisterClient(RestConnection* connection)
     {
+        // remove a client from the list to make it available for deletion.
         std::lock_guard <std::mutex> guard (memberLock_);
 
         connections_.erase(connection->getId());
@@ -71,4 +89,4 @@ namespace Factorem { namespace Server { namespace RestApi
 //#######################################################################################################
 } // namespace RestApi
 } // namespace Server
-} // namespace Factorems
+} // namespace Carbonides
