@@ -110,7 +110,6 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *  Automatically sets the following header key/value pairs
          *
          *  Content-Length: ...
-         *  Connection: close
          *
          *  @param fileName A file to send.
          *  @param responseHeader A response header containing header information,
@@ -128,7 +127,6 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *
          *  (if not set) Content-Type: text/contentType   // contentType is the parameter passed second.
          *  Content-Length: ...
-         *  Connection: close
          *
          *  @param fileName A file to send.
          *  @param contentType the text content type. Might by "html" for instance.
@@ -146,7 +144,6 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *  Automatically sets the following header key/value pairs
          *
          *  Content-Length: text.length()
-         *  Connection: close
          *
          *  @param text A text to send.
          *  @param responseHeader A response header containing header information,

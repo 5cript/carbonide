@@ -111,42 +111,43 @@ namespace Carbonide { namespace Server { namespace RestApi
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendBinaryFile(std::string const& fileName, ResponseHeader response)
     {
-        std::ifstream reader(fileName);
+        std::ifstream reader(fileName, std::ios_base::binary);
         auto size = readFile(reader, response);
 
         //if (!response.isSet("Content-Type"))
         //    response.responseHeaderPairs["Content-Type"] = "application/octet-stream";
         response.responseHeaderPairs["Content-Length"] = std::to_string(size);
-        response.responseHeaderPairs["Connection"] = "close";
 
         stream_ << response.toString();
-        std::copy(std::istreambuf_iterator<char>(reader),
-                  std::istreambuf_iterator<char>(),
-                  std::ostreambuf_iterator<char>(stream_));
+        char buffer[65536];
+        do {
+            reader.read(buffer, 65536);
+            stream_.write(buffer, reader.gcount());
+        } while (reader.gcount() == 65536);
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendTextFile(std::string const& fileName, std::string contentType, ResponseHeader response)
     {
         using namespace std::literals;
 
-        std::ifstream reader(fileName);
+        std::ifstream reader(fileName, std::ios_base::binary);
         auto size = readFile(reader, response);
 
         if (!response.isSet("Content-Type"))
             response.responseHeaderPairs["Content-Type"] = "text/"s + contentType;
         response.responseHeaderPairs["Content-Length"] = std::to_string(size);
-        response.responseHeaderPairs["Connection"] = "close";
 
         stream_ << response.toString();
-        std::copy(std::istreambuf_iterator<char>(reader),
-                  std::istreambuf_iterator<char>(),
-                  std::ostreambuf_iterator<char>(stream_));
+        char buffer[65536];
+        do {
+            reader.read(buffer, 65536);
+            stream_.write(buffer, reader.gcount());
+        } while (reader.gcount() == 65536);
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendString(std::string const& text, ResponseHeader response)
     {
         response.responseHeaderPairs["Content-Length"] = std::to_string(text.length());
-        response.responseHeaderPairs["Connection"] = "close";
 
         stream_ << response.toString();
         stream_ << text;
