@@ -109,7 +109,6 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *
          *  Automatically sets the following header key/value pairs
          *
-         *  Content-Type: application/octet-stream
          *  Content-Length: ...
          *  Connection: close
          *
@@ -127,7 +126,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *
          *  Automatically sets the following header key/value pairs
          *
-         *  Content-Type: text/contentType   // contentType is the parameter passed second.
+         *  (if not set) Content-Type: text/contentType   // contentType is the parameter passed second.
          *  Content-Length: ...
          *  Connection: close
          *

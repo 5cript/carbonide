@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <stdexcept>
+#include <iterator>
+#include <algorithm>
 
 namespace Carbonide { namespace Server { namespace RestApi
 {
@@ -112,13 +114,15 @@ namespace Carbonide { namespace Server { namespace RestApi
         std::ifstream reader(fileName);
         auto size = readFile(reader, response);
 
-        response.responseHeaderPairs["Content-Type"] = "application/octet-stream";
+        //if (!response.isSet("Content-Type"))
+        //    response.responseHeaderPairs["Content-Type"] = "application/octet-stream";
         response.responseHeaderPairs["Content-Length"] = std::to_string(size);
         response.responseHeaderPairs["Connection"] = "close";
 
         stream_ << response.toString();
-        stream_ << reader.rdbuf();
-        stream_.flush();
+        std::copy(std::istreambuf_iterator<char>(reader),
+                  std::istreambuf_iterator<char>(),
+                  std::ostreambuf_iterator<char>(stream_));
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendTextFile(std::string const& fileName, std::string contentType, ResponseHeader response)
@@ -128,13 +132,15 @@ namespace Carbonide { namespace Server { namespace RestApi
         std::ifstream reader(fileName);
         auto size = readFile(reader, response);
 
-        response.responseHeaderPairs["Content-Type"] = "text/"s + contentType;
+        if (!response.isSet("Content-Type"))
+            response.responseHeaderPairs["Content-Type"] = "text/"s + contentType;
         response.responseHeaderPairs["Content-Length"] = std::to_string(size);
         response.responseHeaderPairs["Connection"] = "close";
 
         stream_ << response.toString();
-        stream_ << reader.rdbuf();
-        stream_.flush();
+        std::copy(std::istreambuf_iterator<char>(reader),
+                  std::istreambuf_iterator<char>(),
+                  std::ostreambuf_iterator<char>(stream_));
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendString(std::string const& text, ResponseHeader response)
@@ -144,7 +150,6 @@ namespace Carbonide { namespace Server { namespace RestApi
 
         stream_ << response.toString();
         stream_ << text;
-        stream_.flush();
     }
 //#######################################################################################################
 } // namespace RestApi
