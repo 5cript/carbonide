@@ -2,6 +2,7 @@
 
 #include "rest/server.hpp"
 #include "rest/connection.hpp"
+#include "rest/mime.hpp"
 
 int main()
 {
@@ -11,9 +12,10 @@ int main()
         //auto& stream = connection->getStream();
 
         ResponseHeader response;
-        response["Content-Type"] = "text/html; charset=UTF-8";
-
-        connection->sendString("Hello", response);
+        //response["Content-Type"] = "text/plain; charset=UTF-8";
+        //response["Content-Type"] = "application/octet-stream";
+        // response["Content-Type"] = extensionToMimeType(".pdf");
+        connection->sendFile("C:/Users/Tim/Desktop/September.pdf", true, response);
 
         /*
         auto req = connection->getRequest();
