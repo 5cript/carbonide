@@ -102,7 +102,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
         }
 
         /**
-         *  Sends a file as binary contents.
+         *  Sends a file as content.
          *  The response will be 204 for empty files and whats provided otherwise,
          *  which might be 200 if no explicit response header is provided.
          *  It does not send error codes on itself, but throws when the file cannot be opened.
@@ -115,25 +115,7 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *  @param responseHeader A response header containing header information,
          *         such as response code, version and response message.
          */
-        void sendBinaryFile(std::string const& fileName, ResponseHeader response = {});
-
-        /**
-         *  Sends a file as text contents.
-         *  The response will be 204 for empty files and whats provided otherwise,
-         *  which might be 200 if no explicit response header is provided.
-         *  It does not send error codes on itself, but throws when the file cannot be opened.
-         *
-         *  Automatically sets the following header key/value pairs
-         *
-         *  (if not set) Content-Type: text/contentType   // contentType is the parameter passed second.
-         *  Content-Length: ...
-         *
-         *  @param fileName A file to send.
-         *  @param contentType the text content type. Might by "html" for instance.
-         *  @param responseHeader A response header containing header information,
-         *         such as response code, version and response message.
-         */
-        void sendTextFile(std::string const& fileName, std::string contentType, ResponseHeader response = {});
+        void sendFile(std::string const& fileName, bool autoDetectContentType = true, ResponseHeader response = {});
 
         /**
          *  Sends a string. You must set the content type yourself on the response parameter.

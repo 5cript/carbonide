@@ -1,5 +1,6 @@
 #include "connection.hpp"
 #include "server.hpp"
+#include "mime.hpp"
 
 #include <fstream>
 #include <stdexcept>
@@ -9,24 +10,23 @@
 namespace Carbonide { namespace Server { namespace RestApi
 {
 //#######################################################################################################
-    uint64_t readFile(std::ifstream& reader, ResponseHeader& response)
+    std::string extractFileExtension(std::string const& fileName)
     {
-        if (!reader.good())
-            throw std::runtime_error("Could not open file.");
+        std::string extension;
+        auto slpos = fileName.rfind("/");
+        if (slpos == std::string::npos)
+            slpos = fileName.rfind("\\");
+        if (slpos != std::string::npos)
+            extension = fileName.substr(slpos, extension.length() - slpos);
+        else
+            return "";
 
-        reader.seekg(0, reader.end);
-        auto size = reader.tellg();
-        reader.seekg(0, reader.beg);
-
-        if (size == 0)
-        {
-            response.responseCode = 204;
-            response.responseString = "No Content";
-        }
-
-        return size;
+        auto dotpos = extension.find(".");
+        if (dotpos == std::string::npos)
+            return "";
+        else
+            return extension.substr(dotpos, extension.length() - dotpos);
     }
-//-------------------------------------------------------------------------------------------------------
 //#######################################################################################################
     RestConnection::RestConnection(RestServer* owner, UserId const& id)
         : owner_(owner)
@@ -109,33 +109,30 @@ namespace Carbonide { namespace Server { namespace RestApi
         bodySize_ = stream_.rdbuf()->available();
     }
 //-------------------------------------------------------------------------------------------------------
-    void RestConnection::sendBinaryFile(std::string const& fileName, ResponseHeader response)
+    void RestConnection::sendFile(std::string const& fileName, bool autoDetectContentType, ResponseHeader response)
     {
         std::ifstream reader(fileName, std::ios_base::binary);
-        auto size = readFile(reader, response);
 
-        //if (!response.isSet("Content-Type"))
-        //    response.responseHeaderPairs["Content-Type"] = "application/octet-stream";
-        response.responseHeaderPairs["Content-Length"] = std::to_string(size);
+        if (!reader.good())
+            throw std::runtime_error("Could not open file.");
 
-        stream_ << response.toString();
-        char buffer[65536];
-        do {
-            reader.read(buffer, 65536);
-            stream_.write(buffer, reader.gcount());
-        } while (reader.gcount() == 65536);
-    }
-//-------------------------------------------------------------------------------------------------------
-    void RestConnection::sendTextFile(std::string const& fileName, std::string contentType, ResponseHeader response)
-    {
-        using namespace std::literals;
+        reader.seekg(0, reader.end);
+        auto size = reader.tellg();
+        reader.seekg(0, reader.beg);
 
-        std::ifstream reader(fileName, std::ios_base::binary);
-        auto size = readFile(reader, response);
+        if (size == 0)
+        {
+            response.responseCode = 204;
+            response.responseString = "No Content";
+        }
 
-        if (!response.isSet("Content-Type"))
-            response.responseHeaderPairs["Content-Type"] = "text/"s + contentType;
-        response.responseHeaderPairs["Content-Length"] = std::to_string(size);
+        if (autoDetectContentType) {
+            auto extension = extractFileExtension(fileName);
+            auto type = extensionToMimeType(extension);
+            if (!type.empty())
+                response["Content-Type"] = type;
+        }
+        response["Content-Length"] = std::to_string(size);
 
         stream_ << response.toString();
         char buffer[65536];
