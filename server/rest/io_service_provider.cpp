@@ -1,6 +1,6 @@
 #include "io_service_provider.hpp"
 
-namespace Factorem { namespace Server {
+namespace Carbonide { namespace Server {
 
     IOServiceProvider::IOServiceProvider()
         : ioService()
@@ -13,4 +13,4 @@ namespace Factorem { namespace Server {
     }
 
 } // namespace Server
-} // namespace Factorem
+} // namespace Carbonide
