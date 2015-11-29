@@ -156,7 +156,11 @@
 		<Unit filename="rest/header.hpp" />
 		<Unit filename="rest/io_service_provider.cpp" />
 		<Unit filename="rest/io_service_provider.hpp" />
+		<Unit filename="rest/mime.cpp" />
+		<Unit filename="rest/mime.hpp" />
 		<Unit filename="rest/request.hpp" />
+		<Unit filename="rest/response.cpp" />
+		<Unit filename="rest/response.hpp" />
 		<Unit filename="rest/server.cpp" />
 		<Unit filename="rest/server.hpp" />
 		<Unit filename="rest/user_id.cpp" />
