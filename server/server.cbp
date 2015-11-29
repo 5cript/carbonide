@@ -150,9 +150,13 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="rest/connection.cpp" />
 		<Unit filename="rest/connection.hpp" />
+		<Unit filename="rest/exceptions.cpp" />
+		<Unit filename="rest/exceptions.hpp" />
 		<Unit filename="rest/forward.hpp" />
+		<Unit filename="rest/header.hpp" />
 		<Unit filename="rest/io_service_provider.cpp" />
 		<Unit filename="rest/io_service_provider.hpp" />
+		<Unit filename="rest/request.hpp" />
 		<Unit filename="rest/server.cpp" />
 		<Unit filename="rest/server.hpp" />
 		<Unit filename="rest/user_id.cpp" />
