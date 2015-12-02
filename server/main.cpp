@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include "rest/server.hpp"
-#include "rest/connection.hpp"
-#include "rest/mime.hpp"
+#include "../lib/SimpleREST/server.hpp"
+#include "../lib/SimpleREST/connection.hpp"
+#include "../lib/SimpleREST/mime.hpp"
 
 #include <fstream>
 
 int main()
 {
-    using namespace Carbonide::Server::RestApi;
+    using namespace RestApi;
 
     RestServer server([](std::shared_ptr <RestConnection> connection) {
         //auto& stream = connection->getStream();
