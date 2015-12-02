@@ -44,8 +44,10 @@ namespace Carbonide { namespace Server { namespace RestApi
                 idIncrement_.store(idIncrement_.load() + 1);
                 std::shared_ptr <RestConnection> connection (new RestConnection(this, idIncrement_.load()));
                 boost::system::error_code ec;
-                acceptor_->accept(*connection->getStream().rdbuf(), ec);
+                boost::asio::ip::tcp::acceptor::endpoint_type remoteEndpoint;
+                acceptor_->accept(*connection->getStream().rdbuf(), remoteEndpoint, ec);
                 if (!ec) {
+                    connection->setEndpoint(remoteEndpoint);
                     // LOCK_SCOPE
                     {
                         std::lock_guard <std::mutex> guard (memberLock_);
