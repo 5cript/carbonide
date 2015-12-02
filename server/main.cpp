@@ -4,6 +4,8 @@
 #include "rest/connection.hpp"
 #include "rest/mime.hpp"
 
+#include <fstream>
+
 int main()
 {
     using namespace Carbonide::Server::RestApi;
@@ -11,28 +13,21 @@ int main()
     RestServer server([](std::shared_ptr <RestConnection> connection) {
         //auto& stream = connection->getStream();
 
-        ResponseHeader response;
-        //response["Content-Type"] = "text/plain; charset=UTF-8";
-        //response["Content-Type"] = "application/octet-stream";
-        // response["Content-Type"] = extensionToMimeType(".pdf");
-        connection->sendFile("C:/Users/Tim/Desktop/September.pdf", true, response);
+        std::ofstream file ("./test.bmp", std::ios_base::binary);
 
-        /*
-        auto req = connection->getRequest();
-        auto head = connection->getHeader();
+        std::cout << connection->getAddress() << ":" << connection->getPort() << "\n";
 
-        std::cout << req.requestType << "\n";
-        std::cout << req.httpVersion << "\n";
-        std::cout << req.url << "\n\n";
+        connection->readStream(file);
 
-        for (auto const& i : head.entries)
-            std::cout << i.first << ": " << i.second << "\n";
-        std::cout << "\n";
-        */
+        connection->sendFile("C:/Users/Tim/Desktop/September.pdf", true);
+
+
     }, [](std::shared_ptr <RestConnection> connection, InvalidRequest const& erroneousRequest) {
 
-        auto& stream = connection->getStream();
-        stream << "HTTP/1.1 400 Bad request\r\n";
+        ResponseHeader response;
+        response.responseCode = 400;
+        response.responseString = "Bad Request";
+        connection->sendHeader(response);
 
         std::cerr << erroneousRequest.what() << "\n";
     }, 8081);
