@@ -7,6 +7,8 @@
 #include <iterator>
 #include <algorithm>
 
+#include <iostream>
+
 namespace Carbonide { namespace Server { namespace RestApi
 {
 //#######################################################################################################
@@ -32,9 +34,9 @@ namespace Carbonide { namespace Server { namespace RestApi
         : owner_(owner)
         , id_(id)
         , stream_()
+        , endpoint_()
         , request_()
         , head_()
-        , bodySize_(0)
     {
     }
 //-------------------------------------------------------------------------------------------------------
@@ -63,9 +65,24 @@ namespace Carbonide { namespace Server { namespace RestApi
         return head_;
     }
 //-------------------------------------------------------------------------------------------------------
-    uint32_t RestConnection::getBodySize() const
+    std::size_t RestConnection::getBodySize() const
     {
-        return bodySize_;
+        return stream_.rdbuf()->available() + stream_.rdbuf()->in_avail();
+    }
+//-------------------------------------------------------------------------------------------------------
+    std::string RestConnection::getAddress() const
+    {
+        return endpoint_.address().to_string();
+    }
+//-------------------------------------------------------------------------------------------------------
+    uint32_t RestConnection::getPort() const
+    {
+        return endpoint_.port();
+    }
+//-------------------------------------------------------------------------------------------------------
+    void RestConnection::setEndpoint(boost::asio::ip::tcp::acceptor::endpoint_type remote)
+    {
+        endpoint_ = remote;
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::readHead()
@@ -106,7 +123,6 @@ namespace Carbonide { namespace Server { namespace RestApi
             head_.entries[lhs] = rhs;
         }
 
-        bodySize_ = stream_.rdbuf()->available();
     }
 //-------------------------------------------------------------------------------------------------------
     void RestConnection::sendFile(std::string const& fileName, bool autoDetectContentType, ResponseHeader response)
@@ -148,6 +164,52 @@ namespace Carbonide { namespace Server { namespace RestApi
 
         stream_ << response.toString();
         stream_ << text;
+    }
+//-------------------------------------------------------------------------------------------------------
+    void RestConnection::sendHeader(ResponseHeader response)
+    {
+        stream_ << response.toString();
+    }
+//-------------------------------------------------------------------------------------------------------
+    void RestConnection::read(std::function <void(char const*, long)> writer, std::chrono::duration <long> const& timeout)
+    {
+        int amount = 0;
+        do {
+            char buffer[4096];
+            amount = std::min(getBodySize(), static_cast <std::size_t> (4096u));
+            if (amount == 0) {
+                auto now = std::chrono::high_resolution_clock::now();
+                do {
+                    if (getBodySize() > 0)
+                        break;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                } while ((std::chrono::high_resolution_clock::now() - now) < timeout);
+                if (getBodySize() == 0)
+                    break;
+                amount = std::min(getBodySize(), static_cast <std::size_t> (4096u));
+            }
+
+            stream_.read(buffer, amount);
+            writer(buffer, amount);
+        } while (amount == 4096);
+    }
+//-------------------------------------------------------------------------------------------------------
+    std::string RestConnection::readString(std::chrono::duration <long> const& timeout)
+    {
+        std::string result;
+        read([&](char const* buffer, long amount) { result.append(buffer, amount); }, timeout);
+        return result;
+    }
+//-------------------------------------------------------------------------------------------------------
+    std::ostream& RestConnection::readStream(std::ostream& stream, std::chrono::duration <long> const& timeout)
+    {
+        read([&](char const* buffer, long amount) { stream.write(buffer, amount); }, timeout);
+        return stream;
+    }
+//-------------------------------------------------------------------------------------------------------
+    bool RestConnection::isBodyEmpty()
+    {
+        return getBodySize() == 0;
     }
 //#######################################################################################################
 } // namespace RestApi

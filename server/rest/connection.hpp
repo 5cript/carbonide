@@ -9,6 +9,8 @@
 #include "response.hpp"
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
+#   include "../../lib/SimpleJSON/parse/jsd.h"
+#   include "../../lib/SimpleJSON/parse/jsd_convenience.h"
 #   include "../../lib/SimpleJSON/stringify/jss.h"
 #   include "../../lib/SimpleJSON/stringify/jss_fusion_adapted_struct.h"
 #endif
@@ -16,8 +18,13 @@
 #include <string>
 #include <memory>
 #include <boost/asio.hpp>
+#include <cmath>
+#include <chrono>
+#include <functional>
 
 namespace Carbonide { namespace Server { namespace RestApi {
+
+    using namespace std::literals;
 
     /**
      *  A REST connection to a client.
@@ -64,7 +71,21 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *
          *  @return body size.
          */
-        uint32_t getBodySize() const;
+        std::size_t getBodySize() const;
+
+        /**
+         *  Returns the remote address.
+         *
+         *  @return Remote peer address as string.
+         */
+        std::string getAddress() const;
+
+        /**
+         *  Returns the remote endpoints port.
+         *
+         *  @return Remote peer port.
+         */
+        uint32_t getPort() const;
 
         /**
          *  Send JSON response. uses SimpleJSON library to stringify the object.
@@ -128,10 +149,60 @@ namespace Carbonide { namespace Server { namespace RestApi {
          *  Content-Length: text.length()
          *
          *  @param text A text to send.
-         *  @param responseHeader A response header containing header information,
+         *  @param response A response header containing header information,
          *         such as response code, version and response message.
          */
         void sendString(std::string const& text, ResponseHeader response);
+
+        /**
+         *  Sends only the header and an empty body.
+         *
+         *  @param response The header information to send.
+         */
+        void sendHeader(ResponseHeader response);
+
+        /**
+         *  Reads the body as a text string.
+         *  Please be aware the reading the stream content reads it all.
+         *  We would not recommend to mix data in a single request, use multiple
+         *  request or the convenience of JSON.
+         *
+         *  @return The body.
+         */
+        std::string readString(std::chrono::duration <long> const& timeout = 3s);
+
+        /**
+         *  Reads the socket content to a stream.
+         *  This is useful to save the body to a file.
+         *  Please be aware the reading the stream content reads it all.
+         *  We would not recommend to mix data in a single request, use multiple
+         *  request or the convenience of JSON.
+         *
+         *  @return The passed stream
+         */
+        std::ostream& readStream(std::ostream& stream, std::chrono::duration <long> const& timeout = 3s);
+
+        /**
+         *  Reads the body and tries to parse it as JSON.
+         *  Please be aware the reading the stream content reads it all.
+         *  We would not recommend to mix data in a single request.
+         *
+         *  @param object Writes the JSON into this object.
+         */
+        template <typename T>
+        void readJson(T& object, std::chrono::duration <long> const& timeout = 3s)
+        {
+            auto json = "{content:" + readString(timeout) + "}";
+            auto tree = JSON::parse_json(json);
+            JSON::parse(object, "content", tree);
+        }
+
+        /**
+         *  Returns whether or not the body contains any data.
+         *
+         *  @return bodySize == 0
+         */
+        bool isBodyEmpty();
 
     private:
         /**
@@ -151,14 +222,24 @@ namespace Carbonide { namespace Server { namespace RestApi {
          */
         void free();
 
+        /**
+         *  Sets the remote endpoint for access.
+         */
+        void setEndpoint(boost::asio::ip::tcp::acceptor::endpoint_type remote);
+
+        /**
+         *  Internal function that reduces code duplication
+         */
+        void read(std::function <void(char const*, long)> writer, std::chrono::duration <long> const& timeout);
+
     private:
         RestServer* owner_;
         UserId id_;
         boost::asio::ip::tcp::iostream stream_;
+        boost::asio::ip::tcp::acceptor::endpoint_type endpoint_;
 
         Request request_;
         Header head_;
-        uint32_t bodySize_;
     };
 
 } // namespace RestApi
