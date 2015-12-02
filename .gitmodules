@@ -4,3 +4,6 @@
 [submodule "lib/dukextpp"]
 	path = lib/dukextpp
 	url = git@github.com:5cript/dukextpp.git
+[submodule "lib/SimpleREST"]
+	path = lib/SimpleREST
+	url = git@github.com:5cript/SimpleREST.git
