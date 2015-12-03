@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../lib/SimpleREST/restful.hpp"
+#include "database.hpp"
 
 #include <fstream>
 

@@ -1,17 +1,6 @@
 #ifndef DATABASE_HPP_INCLUDED
 #define DATABASE_HPP_INCLUDED
 
-
-
-namespace Carbonide { namespace Server {
-
-    class Database
-    {
-    private:
-
-    };
-
-} // namespace Server
-} // namespace Carbonide
+#include "database/database.hpp"
 
 #endif // DATABASE_HPP_INCLUDED
