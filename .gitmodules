@@ -7,3 +7,9 @@
 [submodule "lib/SimpleREST"]
 	path = lib/SimpleREST
 	url = git@github.com:5cript/SimpleREST.git
+[submodule "lib/sqlpp11"]
+	path = lib/sqlpp11
+	url = https://github.com/rbock/sqlpp11.git
+[submodule "lib/sqlpp11-connector-sqlite3"]
+	path = lib/sqlpp11-connector-sqlite3
+	url = https://github.com/rbock/sqlpp11-connector-sqlite3.git
