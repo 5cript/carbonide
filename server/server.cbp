@@ -351,6 +351,7 @@
 		<Unit filename="../lib/sqlpp11/include/sqlpp11/wrong.h" />
 		<Unit filename="database.hpp" />
 		<Unit filename="database/database.hpp" />
+		<Unit filename="database/tables/tokens.hpp" />
 		<Unit filename="database/tables/user_table.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>

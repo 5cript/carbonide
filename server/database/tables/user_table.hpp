@@ -5,7 +5,7 @@
 #include <sqlpp11/column_types.h>
 #include <sqlpp11/char_sequence.h>
 
-namespace MyNamespace
+namespace Carbonide { namespace Server { namespace Database { namespace Tables {
 {
   namespace Users_
   {
@@ -77,5 +77,8 @@ namespace MyNamespace
       };
     };
   };
-}
+} // namespace Tables
+} // namespace Database
+} // namespace Server
+} // namespace Carbonide
 #endif
