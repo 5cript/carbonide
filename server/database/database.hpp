@@ -1,15 +1,15 @@
 #ifndef DATABASE_DATABASE_HPP_INCLUDED
 #define DATABASE_DATABASE_HPP_INCLUDED
 
-#include <sqlpp11/sqlite3/sqlite3.h>
-#include <sqlpp11/sqlpp11.h>
+#include "tables.hpp"
+
+#include <memory>
 
 namespace Carbonide { namespace Server { namespace Database {
 
     class Database
     {
-    private:
-
+        virtual ~Database() = default;
     };
 
 } // namespace Database
