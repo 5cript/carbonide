@@ -34,6 +34,7 @@
 			<Add option="-std=c++14" />
 			<Add directory="../lib/sqlpp11/include" />
 			<Add directory="../lib/sqlpp11-connector-sqlite3/include" />
+			<Add directory="../lib/sqlpp11-connector-mysql/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lboost_system-mt" />
@@ -178,6 +179,14 @@
 		<Unit filename="../lib/dukextpp/type_stubs.hpp" />
 		<Unit filename="../lib/dukextpp/utility.cpp" />
 		<Unit filename="../lib/dukextpp/utility.hpp" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/bind_result.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/char_result.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/char_result_row.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/connection.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/connection_config.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/mysql.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/prepared_statement.h" />
+		<Unit filename="../lib/sqlpp11-connector-mysql/include/sqlpp11/mysql/serializer.h" />
 		<Unit filename="../lib/sqlpp11-connector-sqlite3/include/sqlpp11/sqlite3/bind_result.h" />
 		<Unit filename="../lib/sqlpp11-connector-sqlite3/include/sqlpp11/sqlite3/connection.h" />
 		<Unit filename="../lib/sqlpp11-connector-sqlite3/include/sqlpp11/sqlite3/connection_config.h" />
@@ -349,10 +358,19 @@
 		<Unit filename="../lib/sqlpp11/include/sqlpp11/wrap_operand.h" />
 		<Unit filename="../lib/sqlpp11/include/sqlpp11/wrap_operand_fwd.h" />
 		<Unit filename="../lib/sqlpp11/include/sqlpp11/wrong.h" />
+		<Unit filename="api.cpp" />
+		<Unit filename="api.hpp" />
 		<Unit filename="database.hpp" />
+		<Unit filename="database/database.cpp" />
 		<Unit filename="database/database.hpp" />
+		<Unit filename="database/statements.hpp" />
+		<Unit filename="database/statements/add_user.hpp" />
+		<Unit filename="database/statements/statements_core.hpp" />
+		<Unit filename="database/tables.hpp" />
+		<Unit filename="database/tables/ddl/tokens.ddl" />
+		<Unit filename="database/tables/ddl/users.ddl" />
 		<Unit filename="database/tables/tokens.hpp" />
-		<Unit filename="database/tables/user_table.hpp" />
+		<Unit filename="database/tables/users.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
