@@ -3,4 +3,4 @@
 *.depend
 *.exe
 *.save-failed
-*.bin
+*bin/*
