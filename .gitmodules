@@ -7,3 +7,6 @@
 [submodule "lib/SimpleREST"]
 	path = lib/SimpleREST
 	url = git@github.com:5cript/SimpleREST.git
+[submodule "lib/soci"]
+	path = lib/soci
+	url = https://github.com/SOCI/soci.git

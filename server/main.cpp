@@ -1,4 +1,7 @@
-#include "api.hpp"
+#include "server.hpp"
+
+#include "database/tables/user.hpp"
+#include "database/tables/base/table_create.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -7,18 +10,29 @@ int main()
 {
     using namespace Carbonide::Server;
 
-    sqlpp::sqlite3::connection_config dbConfig;
-    dbConfig.path_to_database = "./database.db";
-    dbConfig.flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
-    dbConfig.debug = true;
+    /*
+    // database config
+    Database::DatabaseConfig dbConfig;
+    dbConfig.user = "admin";
+    dbConfig.password = "admin";
 
+    // rest, database, api
     Rest::InterfaceProvider restServer(8081);
-    Database::SqliteDatabase database(dbConfig);
+    Database::Database database;
+    CarbonideServer server(&restServer, &database);
 
-    ApiSetup <Database::SqliteDatabase> api(&restServer, &database);
+    // setup
+    server.setup();
 
-    api.setup();
-    api.start();
+    // start
+    database.connect(dbConfig);
+    restServer.start();
+
+    */
+
+    Database::Tables::createTableQuery <Database::Tables::User>(std::cout);
+
+    //std::cout << "server started on 8081\n";
 
     std::cin.get();
     return 0;
