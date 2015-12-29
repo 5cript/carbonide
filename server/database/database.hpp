@@ -41,8 +41,10 @@ namespace Carbonide { namespace Server { namespace Database {
 
         void addUser();
 
+        void setupTables();
+
     private:
-        std::unique_ptr <soci::session> session_;
+        std::unique_ptr <soci::session> sql_;
     };
 
 } // namespace Database

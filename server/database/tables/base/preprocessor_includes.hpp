@@ -1,6 +1,9 @@
 #ifndef DATABASE_TABLES_BASE_PREPROCESSOR_INCLUDES_HPP_INCLUDED
 #define DATABASE_TABLES_BASE_PREPROCESSOR_INCLUDES_HPP_INCLUDED
 
+#include <boost/preprocessor.hpp>
+
+/*
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/stringize.hpp>
 
@@ -49,5 +52,6 @@
 #include <boost/preprocessor/punctuation/comma.hpp>
 #include <boost/preprocessor/punctuation/paren.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
+*/
 
 #endif // DATABASE_TABLES_BASE_PREPROCESSOR_INCLUDES_HPP_INCLUDED

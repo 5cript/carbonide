@@ -1,8 +1,5 @@
 #include "server.hpp"
 
-#include "database/tables/user.hpp"
-#include "database/tables/base/table_create.hpp"
-
 #include <fstream>
 #include <iostream>
 
@@ -10,7 +7,6 @@ int main()
 {
     using namespace Carbonide::Server;
 
-    /*
     // database config
     Database::DatabaseConfig dbConfig;
     dbConfig.user = "admin";
@@ -26,11 +22,12 @@ int main()
 
     // start
     database.connect(dbConfig);
+
+    database.setupTables();
+
     restServer.start();
 
-    */
-
-    Database::Tables::createTableQuery <Database::Tables::User>(std::cout);
+    // Database::Tables::createTableQuery <Database::Tables::User>(std::cout);
 
     //std::cout << "server started on 8081\n";
 

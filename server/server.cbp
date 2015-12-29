@@ -184,7 +184,11 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="database/database.cpp" />
 		<Unit filename="database/database.hpp" />
-		<Unit filename="database/tables/table_base.hpp" />
+		<Unit filename="database/tables/base/field_types.hpp" />
+		<Unit filename="database/tables/base/preprocessor_includes.hpp" />
+		<Unit filename="database/tables/base/table_base.hpp" />
+		<Unit filename="database/tables/base/table_create.hpp" />
+		<Unit filename="database/tables/base/undef_cleanup.hpp" />
 		<Unit filename="database/tables/user.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="server.cpp" />

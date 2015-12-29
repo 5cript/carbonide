@@ -1,12 +1,22 @@
 #include "database.hpp"
 
+// table utility
+#include "tables/base/table_create.hpp"
+
+// tables
+#include "tables/user.hpp"
+
+// cleanup table creation macros
+#include "tables/base/undef_cleanup.hpp"
+
+#include <iostream>
 #include <sstream>
 
 namespace Carbonide { namespace Server { namespace Database {
     using namespace soci;
 //#######################################################################################################
     Database::Database()
-        : session_(nullptr)
+        : sql_(nullptr)
     {
 
     }
@@ -39,12 +49,21 @@ namespace Carbonide { namespace Server { namespace Database {
         // password
         sessionCreation << "password='" << config.password << "'";
 
-        session_.reset(new session(mysql, sessionCreation.str()));
+        sql_.reset(new session(mysql, sessionCreation.str()));
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Database::setupTables()
+    {
+        using namespace Tables;
+        auto& sql = *sql_;
+
+        sql << createTableQuery <User> ();
+        std::cout << createTableQuery <User> ();
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::disconnect()
     {
-        session_.reset(nullptr);
+        sql_.reset(nullptr);
     }
 //#######################################################################################################
 } // namespace Database

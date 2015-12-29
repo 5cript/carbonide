@@ -3,13 +3,17 @@
 
 #include "base/table_base.hpp"
 
-DECLARE_TABLE
+DECLARE_TABLE_3
 (
     User, (Carbonide)(Server)(Database)(Tables),
-    (int, id, NOT_NULL, AUTO_INCREMENT)
-    (std::string, name, TYPE(VARCHAR), SIZE(128))
+    (int, UserID, NOT_NULL, PRIMARY_KEY, AUTO_INCREMENT)
+    (std::string, Name, TYPE(VARCHAR), SIZE(255), NOT_NULL)
+    (std::string, PassHash, TYPE(VARCHAR), SIZE(255), NOT_NULL)
+    (std::string, Salt, TYPE(VARCHAR), SIZE(255), NOT_NULL)
+    ,
+    (
+        CHARACTER_SET("utf8"),
+        COLLATE("utf8_bin")
+    )
 )
-
-#include "base/undef_cleanup.hpp"
-
 #endif // DATABASE_TABLES_USER_HPP_INCLUDED

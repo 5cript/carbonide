@@ -4,3 +4,4 @@
 *.exe
 *.save-failed
 *server/bin/*
+server_build_log.html
