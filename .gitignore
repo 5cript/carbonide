@@ -5,3 +5,8 @@
 *.save-failed
 *server/bin/*
 *_build_log.html
+lib/*
+!lib/update.sh
+!lib/check.sh
+!lib/clone.sh
+!lib/depencies.txt
