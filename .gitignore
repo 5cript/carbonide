@@ -9,4 +9,5 @@ lib/*
 !lib/update.sh
 !lib/check.sh
 !lib/clone.sh
-!lib/depencies.txt
+!lib/dependencies.txt
+!lib/build.sh

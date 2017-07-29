@@ -1,0 +1,5 @@
+git@github.com:5cript/attender.git
+git@github.com:5cript/SimpleJSON.git
+git@github.com:5cript/star-tape.git
+git@github.com:SOCI/soci.git
+git@github.com:5cript/table-cedsl.git
