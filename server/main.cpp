@@ -13,9 +13,9 @@ int main()
     dbConfig.password = "admin";
 
     // rest, database, api
-    Rest::InterfaceProvider restServer(8081);
+    //Rest::InterfaceProvider restServer(8081);
     Database::Database database;
-    CarbonideServer server(&restServer, &database);
+    CarbonideServer server(&database);
 
     // setup
     server.setup();
@@ -25,7 +25,7 @@ int main()
 
     database.setupTables();
 
-    restServer.start();
+    //restServer.start();
 
     // Database::Tables::createTableQuery <Database::Tables::User>(std::cout);
 

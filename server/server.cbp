@@ -33,8 +33,8 @@
 			<Add option="-fexceptions" />
 			<Add option="-std=c++14" />
 			<Add directory="../lib/soci/include" />
-			<Add directory="C:/Program Files/MySQL/MySQL Connector C 6.1/include" />
 			<Add directory="../" />
+			<Add directory="../lib" />
 		</Compiler>
 		<Linker>
 			<Add option="-lboost_system-mt" />
@@ -155,11 +155,6 @@
 		<Unit filename="../lib/dukextpp/core.hpp" />
 		<Unit filename="../lib/dukextpp/duktape.cpp" />
 		<Unit filename="../lib/dukextpp/duktape.hpp" />
-		<Unit filename="../lib/dukextpp/duktape/src/duk_config.h" />
-		<Unit filename="../lib/dukextpp/duktape/src/duktape.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../lib/dukextpp/duktape/src/duktape.h" />
 		<Unit filename="../lib/dukextpp/object.cpp" />
 		<Unit filename="../lib/dukextpp/object.hpp" />
 		<Unit filename="../lib/dukextpp/object_fwd.hpp" />

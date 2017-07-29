@@ -4,14 +4,13 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include <soci/soci.h>
-#include <soci/mysql/soci-mysql.h>
 #pragma GCC diagnostic pop
 
 #ifndef Q_MOC_RUN // A Qt workaround, for those of you who use Qt
-#   include "lib/SimpleJSON/parse/jsd.h"
-#   include "lib/SimpleJSON/parse/jsd_convenience.h"
-#   include "lib/SimpleJSON/stringify/jss.h"
-#   include "lib/SimpleJSON/stringify/jss_fusion_adapted_struct.h"
+#   include <SimpleJSON/parse/jsd.hpp>
+#   include <SimpleJSON/parse/jsd_convenience.hpp>
+#   include <SimpleJSON/stringify/jss.hpp>
+#   include <SimpleJSON/stringify/jss_fusion_adapted_struct.hpp>
 #endif
 
 #include <memory>
@@ -20,8 +19,8 @@
 
 namespace Carbonide { namespace Server { namespace Database {
 
-    struct DatabaseConfig : public JSON::FusionStruct <DatabaseConfig>
-                          , public JSON::ParsableStruct <DatabaseConfig>
+    struct DatabaseConfig : public JSON::Stringifiable <DatabaseConfig>
+                          , public JSON::Parsable <DatabaseConfig>
     {
         std::string user;
         std::string password;

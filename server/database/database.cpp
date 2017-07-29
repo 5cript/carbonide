@@ -49,7 +49,7 @@ namespace Carbonide { namespace Server { namespace Database {
         // password
         sessionCreation << "password='" << config.password << "'";
 
-        sql_.reset(new session(mysql, sessionCreation.str()));
+        //sql_.reset(new session(mysql, sessionCreation.str()));
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::setupTables()

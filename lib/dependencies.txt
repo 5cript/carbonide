@@ -3,3 +3,4 @@ git@github.com:5cript/SimpleJSON.git
 git@github.com:5cript/star-tape.git
 git@github.com:SOCI/soci.git
 git@github.com:5cript/table-cedsl.git
+git@github.com:svaarala/duktape.git

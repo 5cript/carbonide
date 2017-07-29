@@ -3,9 +3,9 @@
 namespace Carbonide { namespace Server
 {
 //#######################################################################################################
-    CarbonideServer::CarbonideServer(Rest::InterfaceProvider* app, Database::Database* database)
-        : app_(app)
-        , database_(database)
+    CarbonideServer::CarbonideServer(Database::Database* database)
+        //: app_(app)
+        : database_(database)
     {
 
     }
@@ -14,8 +14,9 @@ namespace Carbonide { namespace Server
     {
         std::call_once(setupLock_, [&, this]{
 
-            using namespace Rest;
+            //using namespace Rest;
 
+/*
             // interface
             app_->get("/test", [](Request req, Response res)
             {
@@ -26,6 +27,7 @@ namespace Carbonide { namespace Server
             {
                 res.sendStatus(200);
             });
+*/
 
         });
     }
