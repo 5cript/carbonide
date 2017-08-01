@@ -1,55 +1,56 @@
 #include "database.hpp"
 
 // table utility
-#include "tables/base/table_create.hpp"
+#include <table-cedsl/table_create.hpp>
 
 // tables
 #include "tables/user.hpp"
 
 // cleanup table creation macros
-#include "tables/base/undef_cleanup.hpp"
+#include <table-cedsl/undef_cleanup.hpp>
 
 #include <iostream>
 #include <sstream>
 
 namespace Carbonide { namespace Server { namespace Database {
     using namespace soci;
+    using namespace std::string_literals;
 //#######################################################################################################
-    Database::Database()
+    Database::Database(DatabaseConfig const& config)
         : sql_(nullptr)
+        , config_{config}
     {
 
     }
 //-------------------------------------------------------------------------------------------------------
-    void Database::connect(DatabaseConfig const& config)
+    void Database::connect()
     {
         std::stringstream sessionCreation;
 
-        // db
-        if (config.database)
-            sessionCreation << "db='" << config.database.get() << "' ";
-        else
-            sessionCreation << "db=carbonide ";
+        sessionCreation << "dbname=" << config_.dbName << " ";
 
         // host
-        if (config.host)
-            sessionCreation << "host=" << config.host.get() << " ";
+        if (config_.host)
+            sessionCreation << "host=" << config_.host.get() << " ";
 
         // port
-        if (config.port)
-            sessionCreation << "port=" << config.port.get() << " ";
+        if (config_.port)
+            sessionCreation << "port=" << config_.port.get() << " ";
 
         // charset
-        if (config.charset)
-            sessionCreation << "charset=" << config.charset.get() << " ";
+        if (config_.charset)
+            sessionCreation << "charset=" << config_.charset.get() << " ";
 
         // user
-        sessionCreation << "user='" << config.user << "' ";
+        if (config_.user)
+            sessionCreation << "user='" << config_.user.get() << "' ";
 
         // password
-        sessionCreation << "password='" << config.password << "'";
+        if (config_.password)
+            sessionCreation << "password='" << config_.password.get() << "'";
 
-        //sql_.reset(new session(mysql, sessionCreation.str()));
+        // new soci::session{config.backend, "dbname="s + config.dbName}
+        sql_.reset(new session(config_.backend, sessionCreation.str()));
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::setupTables()
@@ -57,8 +58,8 @@ namespace Carbonide { namespace Server { namespace Database {
         using namespace Tables;
         auto& sql = *sql_;
 
-        sql << createTableQuery <User> ();
-        std::cout << createTableQuery <User> ();
+        sql << TableCesdl::createTableQuery <User> (true, true);
+        std::cout << TableCesdl::createTableQuery <User> (true, true) << "\n";
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::disconnect()

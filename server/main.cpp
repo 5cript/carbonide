@@ -9,25 +9,25 @@ int main()
 
     // database config
     Database::DatabaseConfig dbConfig;
+    dbConfig.backend = "sqlite3";
+    dbConfig.dbName = "carbonide.sqlite3";
     dbConfig.user = "admin";
     dbConfig.password = "admin";
 
-    // rest, database, api
-    //Rest::InterfaceProvider restServer(8081);
-    Database::Database database;
-    CarbonideServer server(&database);
+    // database setup
+    Database::Database database{dbConfig};
+    database.connect();
+    database.setupTables();
+
+    // rest api
+    attender::managed_io_context <attender::thread_pooler> context;
+    CarbonideServer server(context.get_io_service(), &database);
 
     // setup
     server.setup();
 
     // start
-    database.connect(dbConfig);
-
-    database.setupTables();
-
-    //restServer.start();
-
-    // Database::Tables::createTableQuery <Database::Tables::User>(std::cout);
+    server.start("8081");
 
     //std::cout << "server started on 8081\n";
 

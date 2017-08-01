@@ -1,8 +1,9 @@
 #ifndef API_HPP_INCLUDED
 #define API_HPP_INCLUDED
 
-//#include <SimpleREST/restful.hpp>
 #include "database.hpp"
+
+#include <attender/attender.hpp>
 
 #include <mutex>
 
@@ -11,15 +12,23 @@ namespace Carbonide { namespace Server {
     class CarbonideServer
     {
     public:
-        CarbonideServer(Database::Database* database);
+        CarbonideServer(boost::asio::io_service* service, Database::Database* database);
 
         /**
          *  Registers all RESTful Service calls and prepares all statements.
          */
         void setup();
 
+        /**
+         *  Start REST server on port.
+         */
+        void start(std::string const& port);
+
     private:
-        //Rest::InterfaceProvider* app_;
+        void onError(attender::tcp_connection* connection, boost::system::error_code ec, std::exception const& exc);
+
+    private:
+        attender::tcp_server app_;
         Database::Database* database_;
 
         std::once_flag setupLock_;

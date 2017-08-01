@@ -22,9 +22,10 @@ namespace Carbonide { namespace Server { namespace Database {
     struct DatabaseConfig : public JSON::Stringifiable <DatabaseConfig>
                           , public JSON::Parsable <DatabaseConfig>
     {
-        std::string user;
-        std::string password;
-        boost::optional <std::string> database;
+        std::string backend;
+        std::string dbName;
+        boost::optional <std::string> user;
+        boost::optional <std::string> password;
         boost::optional <std::string> host; // default = localhost
         boost::optional <uint32_t> port; // default = 3306
         boost::optional <std::string> charset;
@@ -33,9 +34,9 @@ namespace Carbonide { namespace Server { namespace Database {
     class Database
     {
     public:
-        Database();
+        Database(DatabaseConfig const& config);
 
-        void connect(DatabaseConfig const& config);
+        void connect();
         void disconnect();
 
         void addUser();
@@ -44,6 +45,7 @@ namespace Carbonide { namespace Server { namespace Database {
 
     private:
         std::unique_ptr <soci::session> sql_;
+        DatabaseConfig config_;
     };
 
 } // namespace Database
@@ -53,12 +55,7 @@ namespace Carbonide { namespace Server { namespace Database {
 BOOST_FUSION_ADAPT_STRUCT
 (
     Carbonide::Server::Database::DatabaseConfig,
-    (std::string, user)
-    (std::string, password)
-    (boost::optional <std::string>, database)
-    (boost::optional <std::string>, host)
-    (boost::optional <uint32_t>, port)
-    (boost::optional <std::string>, charset)
+    backend, dbName, user, password, host, port, charset
 )
 
 
