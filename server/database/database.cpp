@@ -35,15 +35,18 @@ namespace Carbonide { namespace Server { namespace Database {
         setupStatements();
     }
 //-------------------------------------------------------------------------------------------------------
+    soci::statement* Database::getStatement(std::string const& name)
+    {
+        auto iter = statements_.find(name);
+        if (iter == std::end(statements_))
+            throw std::runtime_error("statement not found");
+        return &iter->second;
+    }
+//-------------------------------------------------------------------------------------------------------
     void Database::setupStatements()
     {
-        using namespace Tables;
-
-        statements_["user_add"] = (sql_.prepare <<
-            TableCesdl::insertIntoQuery <Users>()
-        );
-
-        std::cout << ;
+        setupUserStatements();
+        setupSessionStatements();
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::connect()
@@ -81,9 +84,19 @@ namespace Carbonide { namespace Server { namespace Database {
         using namespace Tables;
         auto& sql = *sql_;
 
+        // User
         sql << TableCesdl::createTableQuery <Users> (true, true);
-        std::cout << TableCesdl::createTableQuery <Users> (true, true) << "\n";
     }
+//-------------------------------------------------------------------------------------------------------
+    void Database::setupUserStatements()
+    {
+        using namespace Tables;
+        using namespace TableCesdl;
+
+        statements_.insert({"user/add", sql_->prepare << TableCesdl::insertIntoQuery <Users>()});
+    }
+//-------------------------------------------------------------------------------------------------------
+//  void Database::setupSessionStatements() -> session/session_storage.cpp
 //-------------------------------------------------------------------------------------------------------
     void Database::disconnect()
     {

@@ -30,29 +30,73 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
 			<Add option="-std=c++14" />
+			<Add option="-fexceptions" />
 			<Add directory="../lib/soci/build/include" />
 			<Add directory="../" />
 			<Add directory="../lib" />
 			<Add directory="../lib/soci/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lsoci_sqlite3" />
-			<Add option="-lsoci_core" />
+			<Add option="-lsoci_sqlite3_4_0" />
+			<Add option="-lsoci_core_4_0" />
 			<Add option="-lSimpleJSON" />
 			<Add option="-lattender" />
-			<Add option="-lboost_system" />
-			<Add option="-lboost_filesystem" />
-			<Add option="-lboost_iostreams" />
+			<Add option="-lboost_system-mt" />
+			<Add option="-lboost_filesystem-mt" />
+			<Add option="-lboost_iostreams-mt" />
 			<Add option="-lssl" />
 			<Add option="-lcrypto" />
 			<Add option="-lpthread" />
 			<Add option="-latomic" />
+			<Add option="-lws2_32" />
+			<Add option="-lmswsock" />
 			<Add directory="../lib/soci/build/lib" />
 			<Add directory="../lib/SimpleJSON/build" />
 			<Add directory="../lib/attender/build" />
 		</Linker>
+		<Unit filename="../lib/attender/attender.hpp" />
+		<Unit filename="../lib/attender/attender/callback_wrapper.hpp" />
+		<Unit filename="../lib/attender/attender/connection_manager.hpp" />
+		<Unit filename="../lib/attender/attender/cookie.hpp" />
+		<Unit filename="../lib/attender/attender/date.hpp" />
+		<Unit filename="../lib/attender/attender/debug.hpp" />
+		<Unit filename="../lib/attender/attender/io_context/async_model.hpp" />
+		<Unit filename="../lib/attender/attender/io_context/managed_io_context.hpp" />
+		<Unit filename="../lib/attender/attender/io_context/thread_pooler.hpp" />
+		<Unit filename="../lib/attender/attender/lifetime_binding.hpp" />
+		<Unit filename="../lib/attender/attender/mime.hpp" />
+		<Unit filename="../lib/attender/attender/mount_options.hpp" />
+		<Unit filename="../lib/attender/attender/mounting.hpp" />
+		<Unit filename="../lib/attender/attender/net_core.hpp" />
+		<Unit filename="../lib/attender/attender/request.hpp" />
+		<Unit filename="../lib/attender/attender/request_header.hpp" />
+		<Unit filename="../lib/attender/attender/request_parser.hpp" />
+		<Unit filename="../lib/attender/attender/resolver.hpp" />
+		<Unit filename="../lib/attender/attender/response.hpp" />
+		<Unit filename="../lib/attender/attender/response_code.hpp" />
+		<Unit filename="../lib/attender/attender/response_header.hpp" />
+		<Unit filename="../lib/attender/attender/router.hpp" />
+		<Unit filename="../lib/attender/attender/session/memory_session_storage.hpp" />
+		<Unit filename="../lib/attender/attender/session/session.hpp" />
+		<Unit filename="../lib/attender/attender/session/session_cookie_generator_interface.hpp" />
+		<Unit filename="../lib/attender/attender/session/session_data.hpp" />
+		<Unit filename="../lib/attender/attender/session/session_manager.hpp" />
+		<Unit filename="../lib/attender/attender/session/session_storage_interface.hpp" />
+		<Unit filename="../lib/attender/attender/session/uuid_session_cookie_generator.hpp" />
+		<Unit filename="../lib/attender/attender/settings.hpp" />
+		<Unit filename="../lib/attender/attender/ssl_context_interface.hpp" />
+		<Unit filename="../lib/attender/attender/ssl_contexts/ssl_example_context.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_basic_server.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_connection.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_connection_base.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_connection_interface.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_fwd.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_read_sink.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_secure_connection.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_secure_server.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_server.hpp" />
+		<Unit filename="../lib/attender/attender/tcp_server_interface.hpp" />
 		<Unit filename="../lib/dukextpp/core.cpp" />
 		<Unit filename="../lib/dukextpp/core.hpp" />
 		<Unit filename="../lib/dukextpp/duktape.cpp" />
@@ -83,21 +127,32 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../lib/duktape/src/duktape.h" />
+		<Unit filename="../lib/table-cedsl/cexpr_string.hpp" />
 		<Unit filename="../lib/table-cedsl/field_types.hpp" />
 		<Unit filename="../lib/table-cedsl/insert_into.hpp" />
 		<Unit filename="../lib/table-cedsl/preprocessor_includes.hpp" />
 		<Unit filename="../lib/table-cedsl/table_base.hpp" />
 		<Unit filename="../lib/table-cedsl/table_create.hpp" />
 		<Unit filename="../lib/table-cedsl/undef_cleanup.hpp" />
+		<Unit filename="api/common/require_auth.hpp" />
+		<Unit filename="api/user.cpp" />
+		<Unit filename="api/web_interface.cpp" />
 		<Unit filename="database.hpp" />
 		<Unit filename="database/database.cpp" />
 		<Unit filename="database/database.hpp" />
+		<Unit filename="database/database_friends.hpp" />
 		<Unit filename="database/salt.cpp" />
 		<Unit filename="database/salt.hpp" />
+		<Unit filename="database/tables/session.hpp" />
 		<Unit filename="database/tables/user.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="meta_programs/string.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="server.hpp" />
+		<Unit filename="sessions/session.cpp" />
+		<Unit filename="sessions/session.hpp" />
+		<Unit filename="sessions/session_storage.cpp" />
+		<Unit filename="sessions/session_storage.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

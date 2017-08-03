@@ -1,6 +1,8 @@
 #ifndef DATABASE_DATABASE_HPP_INCLUDED
 #define DATABASE_DATABASE_HPP_INCLUDED
 
+#include "database_friends.hpp"
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include <soci/soci.h>
@@ -18,8 +20,8 @@
 #include <string>
 #include <boost/optional.hpp>
 
-namespace Carbonide { namespace Server { namespace Database {
-
+namespace Carbonide { namespace Server { namespace Database
+{
     struct DatabaseConfig : public JSON::Stringifiable <DatabaseConfig>
                           , public JSON::Parsable <DatabaseConfig>
     {
@@ -34,6 +36,8 @@ namespace Carbonide { namespace Server { namespace Database {
 
     class Database
     {
+        friend SessionStorage;
+
     public:
         Database(DatabaseConfig const& config);
 
@@ -46,6 +50,11 @@ namespace Carbonide { namespace Server { namespace Database {
         void setup();
         void setupTables();
         void setupStatements();
+        void setupUserStatements();
+        void setupSessionStatements();
+
+    private:
+        soci::statement* getStatement(std::string const& name);
 
     private:
         std::unique_ptr <soci::session> sql_;

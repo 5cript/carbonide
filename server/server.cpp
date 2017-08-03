@@ -21,16 +21,8 @@ namespace Carbonide { namespace Server
     {
         std::call_once(setupLock_, [&, this]
         {
-            // interface
-            app_.get("/test", [](auto req, auto res)
-            {
-                res->status(200).send("Hello");
-            });
-
-            app_.get("/add_user/:name", [this](auto req, auto res)
-            {
-                res->send_status(200);
-            });
+            setupUserCalls();
+            setupWebInterface();
         });
     }
 //-------------------------------------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-#ifndef DATABASE_TABLES_USER_HPP_INCLUDED
-#define DATABASE_TABLES_USER_HPP_INCLUDED
+#pragma once
 
 #include <table-cedsl/table_base.hpp>
 #include <table-cedsl/field_types.hpp>
@@ -19,4 +18,5 @@ DECLARE_TABLE_3
         COLLATE("utf8_bin")
     )
 )
-#endif // DATABASE_TABLES_USER_HPP_INCLUDED
+
+#include <table-cedsl/undef_cleanup.hpp>

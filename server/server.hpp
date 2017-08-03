@@ -20,6 +20,16 @@ namespace Carbonide { namespace Server {
         void setup();
 
         /**
+         *  Setup api/user
+         */
+        void setupUserCalls();
+
+        /**
+         *  Setup Webpage
+         */
+        void setupWebInterface();
+
+        /**
          *  Start REST server on port.
          */
         void start(std::string const& port);
