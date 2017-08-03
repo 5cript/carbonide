@@ -3,9 +3,15 @@
 *.depend
 *.exe
 *.cbp
+*.project
+*.workspace
 *.save-failed
 *server/bin/*
 *_build_log.html
+*codelite*
+*.sqlite3
+server/cmake-build-Debug/*
+server/*.so
 lib/*
 !lib/update.sh
 !lib/check.sh

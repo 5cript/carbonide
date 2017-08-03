@@ -17,7 +17,7 @@ int main()
     // database setup
     Database::Database database{dbConfig};
     database.connect();
-    database.setupTables();
+    database.setup();
 
     // rest api
     attender::managed_io_context <attender::thread_pooler> context;

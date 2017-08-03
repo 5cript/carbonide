@@ -84,6 +84,7 @@
 		</Unit>
 		<Unit filename="../lib/duktape/src/duktape.h" />
 		<Unit filename="../lib/table-cedsl/field_types.hpp" />
+		<Unit filename="../lib/table-cedsl/insert_into.hpp" />
 		<Unit filename="../lib/table-cedsl/preprocessor_includes.hpp" />
 		<Unit filename="../lib/table-cedsl/table_base.hpp" />
 		<Unit filename="../lib/table-cedsl/table_create.hpp" />
@@ -91,6 +92,8 @@
 		<Unit filename="database.hpp" />
 		<Unit filename="database/database.cpp" />
 		<Unit filename="database/database.hpp" />
+		<Unit filename="database/salt.cpp" />
+		<Unit filename="database/salt.hpp" />
 		<Unit filename="database/tables/user.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="server.cpp" />

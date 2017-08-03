@@ -1,13 +1,18 @@
 #include "database.hpp"
 
-// table utility
-#include <table-cedsl/table_create.hpp>
-
 // tables
 #include "tables/user.hpp"
 
+// table utility
+#include <table-cedsl/table_create.hpp>
+#include <table-cedsl/insert_into.hpp>
+
 // cleanup table creation macros
 #include <table-cedsl/undef_cleanup.hpp>
+
+// salt and password
+#include "salt.hpp"
+#include <openssl/sha.h>
 
 #include <iostream>
 #include <sstream>
@@ -16,11 +21,29 @@ namespace Carbonide { namespace Server { namespace Database {
     using namespace soci;
     using namespace std::string_literals;
 //#######################################################################################################
+//#######################################################################################################
     Database::Database(DatabaseConfig const& config)
         : sql_(nullptr)
         , config_{config}
     {
 
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Database::setup()
+    {
+        setupTables();
+        setupStatements();
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Database::setupStatements()
+    {
+        using namespace Tables;
+
+        statements_["user_add"] = (sql_.prepare <<
+            TableCesdl::insertIntoQuery <Users>()
+        );
+
+        std::cout << ;
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::connect()
@@ -58,13 +81,37 @@ namespace Carbonide { namespace Server { namespace Database {
         using namespace Tables;
         auto& sql = *sql_;
 
-        sql << TableCesdl::createTableQuery <User> (true, true);
-        std::cout << TableCesdl::createTableQuery <User> (true, true) << "\n";
+        sql << TableCesdl::createTableQuery <Users> (true, true);
+        std::cout << TableCesdl::createTableQuery <Users> (true, true) << "\n";
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::disconnect()
     {
         sql_.reset(nullptr);
+    }
+//-------------------------------------------------------------------------------------------------------
+    std::string Database::generateSecondLevelHash(std::string const& name, std::string const& passHashOnce, std::string const& salt)
+    {
+        std::basic_string <unsigned char> passHashTwice{64};
+        std::basic_string <unsigned char> salted;
+
+        for (auto const& i : name)
+            salted.push_back((char)i);
+        for (auto const& i : passHashOnce)
+            salted.push_back((char)i);
+
+        SHA256(salted.c_str(), salted.length(), &*passHashTwice.begin());
+
+        std::string str;
+        for (auto const& i : passHashTwice)
+            str.push_back((char)i);
+        return str;
+    }
+//-------------------------------------------------------------------------------------------------------
+    void Database::addUser(std::string const& name, std::string const& passHashOnce)
+    {
+        std::string salt = generateSalt(32);
+        auto secondLevelHash = generateSecondLevelHash(name, passHashOnce, salt);
     }
 //#######################################################################################################
 } // namespace Database

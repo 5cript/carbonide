@@ -8,7 +8,7 @@ using namespace TableCesdl;
 
 DECLARE_TABLE_3
 (
-    User, (Carbonide)(Server)(Database)(Tables),
+    Users, (Carbonide)(Server)(Database)(Tables),
     (std::vector <char>, UserID, TYPE(BLOB), SIZE(16), NOT_NULL, PRIMARY_KEY)
     (std::string, Name, TYPE(VARCHAR), SIZE(255), NOT_NULL)
     (std::string, PassHash, TYPE(VARCHAR), SIZE(255), NOT_NULL)

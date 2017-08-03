@@ -13,6 +13,7 @@
 #   include <SimpleJSON/stringify/jss_fusion_adapted_struct.hpp>
 #endif
 
+#include <unordered_map>
 #include <memory>
 #include <string>
 #include <boost/optional.hpp>
@@ -39,12 +40,16 @@ namespace Carbonide { namespace Server { namespace Database {
         void connect();
         void disconnect();
 
-        void addUser();
+        std::string generateSecondLevelHash(std::string const& name, std::string const& passHashOnce, std::string const& salt);
+        void addUser(std::string const& name, std::string const& passHashOnce);
 
+        void setup();
         void setupTables();
+        void setupStatements();
 
     private:
         std::unique_ptr <soci::session> sql_;
+        std::unordered_map <std::string, soci::statement> statements_;
         DatabaseConfig config_;
     };
 
