@@ -2,6 +2,7 @@
 *.o
 *.depend
 *.exe
+*.cbp
 *.save-failed
 *server/bin/*
 *_build_log.html
