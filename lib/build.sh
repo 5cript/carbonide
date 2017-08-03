@@ -6,8 +6,8 @@ cmake_build()  {
 	cd build
     if [ -z "$2" ]; then
         cmake ..
-    else
-        cmake $2 ..
+    elif [ "$2" == "msys" ]; then
+        cmake -G"MSYS Makefiles" ..
 	fi
 	make -j4
 	cd ../..

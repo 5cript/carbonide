@@ -11,3 +11,4 @@ lib/*
 !lib/clone.sh
 !lib/dependencies.txt
 !lib/build.sh
+!lib/clean.sh
