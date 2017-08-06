@@ -45,20 +45,13 @@ namespace Carbonide { namespace Server { namespace Database
         void disconnect();
 
         std::string generateSecondLevelHash(std::string const& name, std::string const& passHashOnce, std::string const& salt);
-        void addUser(std::string const& name, std::string const& passHashOnce);
+        void addUser(std::string const& email, std::string const& name, std::string const& passHashOnce);
 
         void setup();
         void setupTables();
-        void setupStatements();
-        void setupUserStatements();
-        void setupSessionStatements();
-
-    private:
-        soci::statement* getStatement(std::string const& name);
 
     private:
         std::unique_ptr <soci::session> sql_;
-        std::unordered_map <std::string, soci::statement> statements_;
         DatabaseConfig config_;
     };
 

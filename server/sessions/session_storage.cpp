@@ -1,6 +1,9 @@
 #include "session_storage.hpp"
 #include "../database/tables/session.hpp"
 
+#include <table-cedsl/insert_into.hpp>
+#include <attender/attender/session/uuid_session_cookie_generator.hpp>
+
 namespace Carbonide { namespace Server { namespace Database
 {
 //#####################################################################################################################
@@ -24,7 +27,7 @@ namespace Carbonide { namespace Server { namespace Database
     std::string SessionStorage::create_session()
     {
         /// TODO
-        return "";
+        auto uuid = attender::uuid_generator::generate_id();
     }
 //---------------------------------------------------------------------------------------------------------------------
     void SessionStorage::delete_session(std::string const& id)
@@ -42,19 +45,6 @@ namespace Carbonide { namespace Server { namespace Database
     {
         /// TODO
         return false;
-    }
-//#####################################################################################################################
-    void Database::setupSessionStatements()
-    {
-        using namespace Tables;
-        using namespace TableCesdl;
-
-        statements_.insert({"session/create", sql_->prepare << ""});
-        statements_.insert({"session/clear", sql_->prepare << ""});
-        statements_.insert({"session/count", sql_->prepare << ""});
-        statements_.insert({"session/remove", sql_->prepare << ""});
-        statements_.insert({"session/get", sql_->prepare << ""});
-        statements_.insert({"session/update", sql_->prepare << ""});
     }
 //#####################################################################################################################
 } // namespace Database

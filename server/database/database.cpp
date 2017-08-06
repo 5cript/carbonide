@@ -2,6 +2,7 @@
 
 // tables
 #include "tables/user.hpp"
+#include "tables/session.hpp"
 
 // table utility
 #include <table-cedsl/table_create.hpp>
@@ -13,6 +14,8 @@
 // salt and password
 #include "salt.hpp"
 #include <openssl/sha.h>
+
+#include <attender/attender/session/uuid_session_cookie_generator.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -32,21 +35,6 @@ namespace Carbonide { namespace Server { namespace Database {
     void Database::setup()
     {
         setupTables();
-        setupStatements();
-    }
-//-------------------------------------------------------------------------------------------------------
-    soci::statement* Database::getStatement(std::string const& name)
-    {
-        auto iter = statements_.find(name);
-        if (iter == std::end(statements_))
-            throw std::runtime_error("statement not found");
-        return &iter->second;
-    }
-//-------------------------------------------------------------------------------------------------------
-    void Database::setupStatements()
-    {
-        setupUserStatements();
-        setupSessionStatements();
     }
 //-------------------------------------------------------------------------------------------------------
     void Database::connect()
@@ -84,19 +72,10 @@ namespace Carbonide { namespace Server { namespace Database {
         using namespace Tables;
         auto& sql = *sql_;
 
-        // User
+        // Creating Tables, if not existant.
         sql << TableCesdl::createTableQuery <Users> (true, true);
+        sql << TableCesdl::createTableQuery <Sessions> (true, true);
     }
-//-------------------------------------------------------------------------------------------------------
-    void Database::setupUserStatements()
-    {
-        using namespace Tables;
-        using namespace TableCesdl;
-
-        statements_.insert({"user/add", sql_->prepare << TableCesdl::insertIntoQuery <Users>()});
-    }
-//-------------------------------------------------------------------------------------------------------
-//  void Database::setupSessionStatements() -> session/session_storage.cpp
 //-------------------------------------------------------------------------------------------------------
     void Database::disconnect()
     {
@@ -121,10 +100,15 @@ namespace Carbonide { namespace Server { namespace Database {
         return str;
     }
 //-------------------------------------------------------------------------------------------------------
-    void Database::addUser(std::string const& name, std::string const& passHashOnce)
+    void Database::addUser(std::string const& email, std::string const& name, std::string const& passHashOnce)
     {
         std::string salt = generateSalt(32);
         auto secondLevelHash = generateSecondLevelHash(name, passHashOnce, salt);
+
+        auto uuid = attender::uuid_generator::generate_id();
+
+        //statement->bind(uuid, email, name, secondLevelHash, salt, std::vector <unsigned char> {});
+        //statement->execute();
     }
 //#######################################################################################################
 } // namespace Database
